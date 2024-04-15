@@ -3,8 +3,9 @@ let assetListContainer;
 let assetListHeader;
 let assetList;
 let assets = [];
-let sliderVisible = !1;
+let sliderVisible = false;
 let lastClickedAsset = null;
+
 async function fetchAssetsList(url) {
   try {
     const response = await fetch(url);
@@ -19,6 +20,7 @@ async function fetchAssetsList(url) {
     return { categories: [], assets: [] };
   }
 }
+
 async function generateAssetListAndButtons() {
   const { categories } = await fetchAssetsList("Assets.json");
   assetList.innerHTML = "";
@@ -35,15 +37,25 @@ async function generateAssetListAndButtons() {
   });
   preloadModels();
 }
-function preloadModels() {
+
+async function preloadModels() {
   assets.forEach((asset) => {
-    const modelBaseURL = `Assets/`;
-    const model = new Image();
-    model.src = `${modelBaseURL}${asset.name}.glb`;
+    const modelBaseURL = `https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/`;
+    const lowResModel = new Image();
+    const highResModel = new Image();
+
+    // Load low-resolution model first
+    lowResModel.src = `${modelBaseURL}${asset.name}_low.glb`;
+
+    // When the low-resolution model is loaded, switch to the high-resolution model
+    lowResModel.onload = function () {
+      highResModel.src = `${modelBaseURL}${asset.name}.glb`;
+    };
   });
 }
+
 function showSlider() {
-  sliderVisible = !0;
+  sliderVisible = true;
   const slider = document.querySelector(".slider");
   slider.style.display = "block";
   adjustARButtonPosition();
@@ -54,6 +66,7 @@ function showSlider() {
     arButton.style.display = "inline-block";
   }
 }
+
 function switchCategory(category) {
   const filteredAssets = assets.filter((asset) => asset.category === category);
   const container = document.getElementById("slidesContainer");
@@ -63,24 +76,25 @@ function switchCategory(category) {
     slideButton.className = "slide";
     slideButton.onclick = () => switchSrc(slideButton, asset.name);
     slideButton.setAttribute("data-asset", asset.name);
-    const modelBaseURL = `Assets/`;
+    const modelBaseURL = `https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/`;
     slideButton.style.backgroundImage = `url('${modelBaseURL}${asset.name}.webp')`;
     container.appendChild(slideButton);
   });
   adjustModelViewerPosition();
 }
+
 function switchSrc(element, filename) {
   if (lastClickedAsset === filename) {
     sliderVisible = !sliderVisible;
     const slider = document.querySelector(".slider");
     slider.style.display = sliderVisible ? "block" : "none";
   } else {
-    const modelBaseURL = `Assets/`;
+    const modelBaseURL = `https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/`;
     modelViewer.src =
       `${modelBaseURL}${filename}.glb?v=` + new Date().getTime();
     modelViewer.poster =
       `${modelBaseURL}${filename}.webp?v=` + new Date().getTime();
-    sliderVisible = !0;
+    sliderVisible = true;
     const slider = document.querySelector(".slider");
     slider.style.display = "block";
   }
@@ -94,6 +108,7 @@ function switchSrc(element, filename) {
   adjustModelViewerPosition();
   modelViewer.scrollIntoView({ behavior: "smooth" });
 }
+
 function lazyLoadAssets(entries, observer) {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
@@ -103,6 +118,7 @@ function lazyLoadAssets(entries, observer) {
     }
   });
 }
+
 function adjustModelViewerPosition() {
   const modelViewerBottom = modelViewer.getBoundingClientRect().bottom;
   const sliderBottom = document
@@ -111,6 +127,7 @@ function adjustModelViewerPosition() {
   const overlapHeight = Math.max(0, sliderBottom - modelViewerBottom);
   modelViewer.style.marginTop = `-${overlapHeight}px`;
 }
+
 function adjustARButtonPosition() {
   const arButton = document.getElementById("ar-button");
   const toggleSliderButton = document.querySelector(".toggle-slider-button");
@@ -120,6 +137,7 @@ function adjustARButtonPosition() {
     arButton.style.top = `${arButtonTop}px`;
   }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   modelViewer = document.querySelector("#modelViewer");
   assetListContainer = document.querySelector(".asset-list-container");
@@ -142,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(toggleSliderButton);
   adjustModelViewerPosition();
 });
+
 function toggleSliderVisibility() {
   sliderVisible = !sliderVisible;
   const slider = document.querySelector(".slider");
