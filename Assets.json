@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "amplifier",
+    "price": 1000,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element1 3D Description 0001",
+    "category": "Furniture"
+  },
+  {
+    "id": 1,
+    "name": "guitar",
+    "price": 1000,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element1 3D Description 0001",
+    "category": "Furniture"
+  },
+  {
+    "id": 2,
+    "name": "bike",
+    "price": 2000,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element2 3D Description 0002",
+    "category": "Furniture"
+  },
+  {
+    "id": 3,
+    "name": "guitar",
+    "price": 3000,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element3 3D Description 0003",
+    "category": "Décore"
+  },
+  {
+    "id": 4,
+    "name": "Moto",
+    "price": 5000,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element4 3D Description 0004",
+    "category": "Décore"
+  },
+  {
+    "id": 5,
+    "name": "Moon",
+    "price": 25000,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element5 3D Description 0005",
+    "category": "Divers"
+  },
+  {
+    "id": 6,
+    "name": "oldtv",
+    "price": 500,
+    "image": "https://cdn.glitch.me/f2692db9-36b1-4d00-9d2d-3e0a86952614/",
+    "description": "Element6 3D Description 0006",
+    "category": "Divers"
+  }
+]
